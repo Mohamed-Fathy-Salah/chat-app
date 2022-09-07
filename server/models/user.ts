@@ -3,21 +3,23 @@ import {
   InferAttributes,
   InferCreationAttributes,
   DataTypes,
+  CreationOptional,
 } from "sequelize";
 import { sequelize } from "./sequelize-wrapper";
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  id: number;
+interface User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
+> {
+  id: CreationOptional<number>;
   email: string;
   password: string;
-  salt: string;
   name: string;
-  status: string;
-  photo: string;
+  status: CreationOptional<string>;
+  photo: CreationOptional<string>;
 }
 
-User.init(
-  {
+export const User = sequelize.define<User>('User', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -28,10 +30,6 @@ User.init(
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    salt: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -47,6 +45,4 @@ User.init(
       type: DataTypes.STRING,
       defaultValue: "/tmp/chat/default-user.png",
     },
-  },
-  { sequelize, tableName: "user" }
-);
+})

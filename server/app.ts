@@ -1,3 +1,4 @@
+import 'express-async-errors';
 import express from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
@@ -24,6 +25,7 @@ import { deleteUserRouter } from "./connection/delete-user";
 
 const app = express();
 
+app.set("trust proxy", true);
 app.use(json());
 app.use(
   cookieSession({

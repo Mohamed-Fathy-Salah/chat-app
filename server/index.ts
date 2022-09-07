@@ -4,30 +4,43 @@ import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { formatMessage } from "../utils/messages";
 import { app } from "./app";
+import { sequelize } from "./models/sequelize-wrapper";
 
-const server = createServer(app);
+const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined");
+  }
 
-const botName = "ChatCord Bot";
+  const server = createServer(app);
 
-const io = new Server(server, {});
+  const botName = "ChatCord Bot";
 
-io.on("connection", (socket: Socket) => {
-  socket.emit("message", "welcome to chatcord!");
+  const io = new Server(server, {});
 
-  socket.broadcast.emit(
-    "message",
-    formatMessage(botName, "a user has joined the chat")
-  );
+  io.on("connection", (socket: Socket) => {
+    socket.emit("message", "welcome to chatcord!");
 
-  socket.on("disconnect", () => {
-    io.emit("message", formatMessage(botName, "a user has left the chat"));
+    socket.broadcast.emit(
+      "message",
+      formatMessage(botName, "a user has joined the chat")
+    );
+
+    socket.on("disconnect", () => {
+      io.emit("message", formatMessage(botName, "a user has left the chat"));
+    });
+
+    socket.on("chatMessage", (msg) => {
+      io.emit("message", formatMessage("user", msg));
+    });
   });
 
-  socket.on("chatMessage", (msg) => {
-    io.emit("message", formatMessage("user", msg));
+  app.use(express.static(path.join(__dirname, "..", "client")));
+
+  await sequelize.sync();
+
+  server.listen(3000, async () => {
+    console.log("listening on port 3000");
   });
-});
+};
 
-app.use(express.static(path.join(__dirname, "..", "client")));
-
-server.listen(3000, () => console.log("listening on port 3000"));
+start();
