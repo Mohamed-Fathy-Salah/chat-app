@@ -21,4 +21,4 @@ router.put(
   }
 );
 
-export { router as createGroupRouter };
+export { router as updateGroupRouter };

@@ -12,4 +12,4 @@ router.delete(
   }
 );
 
-export { router as addFriendRouter };
+export { router as deleteFriendRouter };
