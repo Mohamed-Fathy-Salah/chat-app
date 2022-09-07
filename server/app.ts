@@ -13,6 +13,7 @@ import { deleteGroupRouter } from "./group/delete";
 import { updateGroupRouter } from "./group/update";
 import { createGroupRouter } from "./group/create";
 import { addFriendRouter } from "./friend/add";
+import { showFriendsRouter } from "./friend/show-friends";
 import { deleteFriendRouter } from "./friend/delete";
 import { signupRouter } from "./auth/signup";
 import { signoutRouter } from "./auth/signout";
@@ -33,6 +34,7 @@ app.use(
     secure: false,
   })
 );
+
 app.use(currentUser);
 
 app.use(signupRouter);
@@ -49,6 +51,7 @@ app.use(updateGroupRouter);
 app.use(createGroupRouter);
 
 app.use(addFriendRouter);
+app.use(showFriendsRouter);
 app.use(deleteFriendRouter);
 
 app.use(addAdminRouter);

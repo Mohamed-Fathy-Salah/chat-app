@@ -4,7 +4,7 @@ import { validateRequest } from "../../middlewares/validate-request";
 import { requireAuth } from "../../middlewares/require-auth";
 import { NotFoundError } from "../../errors/not-found-error";
 import {User} from '../models/user';
-//import {Friend} from '../models/friend';
+import {Friend} from '../models/friend';
 
 const router = Router();
 
@@ -22,17 +22,17 @@ router.post(
         throw new NotFoundError();
     }
 
-    // add userId, friendId to friend db
-    //const userId = req.currentUser!.id;
-    //const [friendship, created] = await Friend.findOrCreate({where: {userId, friendId}});
+     //add userId, friendId to friend db
+    const userId = req.currentUser!.id;
+    const [friendship, created] = await Friend.findOrCreate({where: {userId, friendId}});
 
-    // if friendId, userId not in friend db emit message to friendid that they got friend request
-    //if(created) {
-        //// todo: emit msg
-        //return res.status(201).send(friendship);
-    //}
+     //if friendId, userId not in friend db emit message to friendid that they got friend request
+    if(created) {
+        // todo: emit msg
+        return res.status(201).send(friendship);
+    }
 
-    res.sendStatus(201);
+    res.sendStatus(200);
   }
 );
 

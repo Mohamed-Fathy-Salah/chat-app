@@ -1,20 +1,19 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  ForeignKey,
-} from "sequelize";
+import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { sequelize } from "./sequelize-wrapper";
 import { User } from "./user";
 
-class FriendAttrs extends Model<
-  InferAttributes<FriendAttrs>,
-  InferCreationAttributes<FriendAttrs>
-> {
-  userId: ForeignKey<number>;
-  friendId: ForeignKey<number>;
+@Table
+export class Friend extends Model {
+    @ForeignKey(() => User)
+    @Column
+    userId!: number;
+
+    @ForeignKey(() => User)
+    @Column
+    friendId!: number;
+
+    @BelongsTo(() => User)
+    friend?: User;
 }
 
-FriendAttrs.belongsTo(User);
-
-export const Friend = sequelize.define<FriendAttrs>('Friend', {})
+sequelize.addModels([Friend]);
