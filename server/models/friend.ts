@@ -7,14 +7,14 @@ import {
 import { sequelize } from "./sequelize-wrapper";
 import { User } from "./user";
 
-export class Friend extends Model<
-  InferAttributes<Friend>,
-  InferCreationAttributes<Friend>
+class FriendAttrs extends Model<
+  InferAttributes<FriendAttrs>,
+  InferCreationAttributes<FriendAttrs>
 > {
   userId: ForeignKey<number>;
   friendId: ForeignKey<number>;
 }
 
-Friend.belongsTo(User);
+FriendAttrs.belongsTo(User);
 
-Friend.init({}, { sequelize, tableName: "friend" });
+export const Friend = sequelize.define<FriendAttrs>('Friend', {})
