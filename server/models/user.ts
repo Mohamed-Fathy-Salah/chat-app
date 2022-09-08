@@ -1,7 +1,14 @@
-import { AutoIncrement, Column, Index, Model, Table } from "sequelize-typescript";
+import {
+  AutoIncrement,
+  Column,
+  Default,
+  Index,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { sequelize } from "./sequelize-wrapper";
 
-@Table({timestamps: false})
+@Table({ timestamps: false })
 export class User extends Model {
   @AutoIncrement
   @Column({ primaryKey: true })
@@ -17,9 +24,11 @@ export class User extends Model {
   @Column
   name!: string;
 
+  @Default("Active")
   @Column
   status?: string;
 
+  @Default("default-user")
   @Column
   photo?: string;
 }

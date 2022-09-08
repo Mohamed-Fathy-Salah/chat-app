@@ -20,7 +20,7 @@ router.delete(
 
     await friendship.destroy();
 
-    res.sendStatus(200);
+    res.sendStatus(201);
   }
 );
 

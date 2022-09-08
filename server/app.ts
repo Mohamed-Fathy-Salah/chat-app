@@ -12,6 +12,7 @@ import { showUsersRouter } from "./user/show";
 import { deleteGroupRouter } from "./group/delete";
 import { updateGroupRouter } from "./group/update";
 import { createGroupRouter } from "./group/create";
+import { showGroupsRouter } from "./group/show";
 import { addFriendRouter } from "./friend/add";
 import { showFriendsRouter } from "./friend/show-friends";
 import { deleteFriendRouter } from "./friend/delete";
@@ -49,6 +50,7 @@ app.use(showUsersRouter);
 app.use(deleteGroupRouter);
 app.use(updateGroupRouter);
 app.use(createGroupRouter);
+app.use(showGroupsRouter);
 
 app.use(addFriendRouter);
 app.use(showFriendsRouter);
