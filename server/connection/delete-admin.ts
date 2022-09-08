@@ -1,17 +1,43 @@
 import { Response, Request, Router } from "express";
+import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
+import { Connection } from "../models/connection";
 
 const router = Router();
+// todo: check if last admin in group then select random user and make admin
+// todo: check if last admin and last user then delete group also from groupdb
 
 router.delete(
-  "/api/group/:groupId/admin/:adminId",
+  "/api/connection/:groupId/admin/:adminId",
   requireAuth,
   async (req: Request, res: Response) => {
-      // make sure current user is admin
-      // make sure adminId, groupid is in connection db
-      // save admin with isAdmin=0
-      // emit admin removed
-    res.sendStatus(201);
+    const groupId = req.params.groupId;
+    const userId = req.currentUser!.id;
+
+    // make sure current user is admin
+    await Connection.isAdmin(userId, groupId);
+
+    // make sure adminId, groupId is in connection db
+    const adminId = req.params.adminId;
+    const connection = await Connection.findOne({
+      where: { userId: adminId, groupId },
+    });
+
+    if (!connection) {
+      throw new NotFoundError();
+    }
+
+    // if connection is admin
+    if (connection.admin) {
+      // save admin with isAdmin=false
+      connection.set({ admin: false });
+
+      await connection.save();
+
+      // todo: emit admin removed
+    }
+
+    res.sendStatus(200);
   }
 );
 

@@ -8,7 +8,11 @@ const router = Router();
 router.get("/api/friend", requireAuth, async (req: Request, res: Response) => {
   const userId = req.currentUser!.id;
 
-  const friends = await Friend.findAll({ where: { userId }, include: [{model: User, attributes: ['id', 'name', 'status', 'email', 'photo']}]});
+  const friends = await Friend.findAll({
+    where: { userId },
+    include: [{ model: User, attributes: { exclude: ["password"] } }],
+    attributes: { exclude: ["userId", "friendId"] },
+  });
 
   res.status(200).send(friends);
 });

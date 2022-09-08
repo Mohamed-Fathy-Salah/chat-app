@@ -1,5 +1,4 @@
 import { Response, Request, Router } from "express";
-import { NotAuthorizedError } from "../../errors/not-authorized-error";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Connection } from "../models/connection";
 import { Group } from "../models/group";
@@ -14,10 +13,7 @@ router.delete(
       const userId = req.currentUser!.id;
 
     // make sure user is admin from connection db
-    const isAdmin = await Connection.isAdmin(userId, groupId);
-    if(!isAdmin) {
-        throw new NotAuthorizedError();
-    }
+    await Connection.isAdmin(userId, groupId);
 
     // delete all from connection with groupId
     await Connection.destroy({where: {groupId}});

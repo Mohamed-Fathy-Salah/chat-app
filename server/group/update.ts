@@ -5,7 +5,6 @@ import { requireAuth } from "../../middlewares/require-auth";
 import { upload } from "../../middlewares/storage";
 import { Group } from "../models/group";
 import { Connection } from "../models/connection";
-import { NotAuthorizedError } from "../../errors/not-authorized-error";
 import { NotFoundError } from "../../errors/not-found-error";
 
 const router = Router();
@@ -21,10 +20,7 @@ router.put(
     const userId = req.currentUser!.id;
 
     // make sure user is admin in group
-    const isAdmin = await Connection.isAdmin(userId, groupId);
-    if (!isAdmin) {
-      throw new NotAuthorizedError();
-    }
+    await Connection.isAdmin(userId, groupId);
 
     // make sure groupId is present
     const group = await Group.findByPk(groupId);

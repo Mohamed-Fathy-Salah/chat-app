@@ -8,7 +8,7 @@ router.get("/api/user/:userId", async (req: Request, res: Response) => {
   const userId = req.params.userId;
 
   // get user without password
-  const user = await User.findOne({ where: { id: userId }, attributes: ['id', 'email', 'name', 'status', 'photo'] });
+  const user = await User.findOne({ where: { id: userId }, attributes: {exclude: ['password']} });
 
   // make sure user exists
   if(!user) {

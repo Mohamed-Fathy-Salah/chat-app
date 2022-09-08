@@ -1,4 +1,4 @@
-import 'express-async-errors';
+import "express-async-errors";
 import express from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
@@ -20,10 +20,11 @@ import { signupRouter } from "./auth/signup";
 import { signoutRouter } from "./auth/signout";
 import { currentUserRouter } from "./auth/current-user";
 import { signinRouter } from "./auth/signin";
-import { addAdminRouter } from "./connection/add-admin";
+import { addAdminConnectionRouter } from "./connection/add-admin";
+import { addUserConnectionRouter } from "./connection/add-user";
 import { deleteAdminRouter } from "./connection/delete-admin";
-import { joinGroupRouter } from "./connection/join";
 import { deleteUserRouter } from "./connection/delete-user";
+import { getGroupUsersRouter } from "./connection/get-all";
 
 const app = express();
 
@@ -56,10 +57,11 @@ app.use(addFriendRouter);
 app.use(showFriendsRouter);
 app.use(deleteFriendRouter);
 
-app.use(addAdminRouter);
+app.use(addAdminConnectionRouter);
+app.use(addUserConnectionRouter);
 app.use(deleteAdminRouter);
-app.use(joinGroupRouter);
 app.use(deleteUserRouter);
+app.use(getGroupUsersRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
