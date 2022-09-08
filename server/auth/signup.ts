@@ -49,7 +49,7 @@ router.post(
     };
 
     // send status code created
-    res.status(201).send(user);
+    res.sendStatus(201);
   }
 );
 

@@ -2,17 +2,17 @@ import { BelongsTo, Column, ForeignKey, Model, Table } from "sequelize-typescrip
 import { sequelize } from "./sequelize-wrapper";
 import { User } from "./user";
 
-@Table
+@Table({timestamps: false})
 export class Friend extends Model {
     @ForeignKey(() => User)
-    @Column
+    @Column({primaryKey: true})
     userId!: number;
 
     @ForeignKey(() => User)
-    @Column
+    @Column({primaryKey: true})
     friendId!: number;
 
-    @BelongsTo(() => User)
+    @BelongsTo(() => User, 'friendId')
     friend?: User;
 }
 

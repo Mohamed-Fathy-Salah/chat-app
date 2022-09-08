@@ -29,7 +29,7 @@ router.post(
      //if friendId, userId not in friend db emit message to friendid that they got friend request
     if(created) {
         // todo: emit msg
-        return res.status(201).send(friendship);
+        return res.sendStatus(201);
     }
 
     res.sendStatus(200);
