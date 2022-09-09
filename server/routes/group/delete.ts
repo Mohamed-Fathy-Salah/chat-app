@@ -1,7 +1,7 @@
 import { Response, Request, Router } from "express";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Connection } from "../models/connection";
-import { Group } from "../models/group";
+import { Connection } from "../../models/connection";
+import { Group } from "../../models/group";
 
 const router = Router();
 

@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import { validateRequest } from "../../middlewares/validate-request";
 import { requireAuth } from "../../middlewares/require-auth";
 import { upload } from "../../middlewares/storage";
-import { User } from "../models/user";
+import { User } from "../../models/user";
 import { NotFoundError } from "../../errors/not-found-error";
 
 const router = Router();

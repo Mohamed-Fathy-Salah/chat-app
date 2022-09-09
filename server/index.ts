@@ -2,7 +2,7 @@ import path from "path";
 import express from "express";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
-import { formatMessage } from "../utils/messages";
+import { formatMessage } from "./utils/messages";
 import { app } from "./app";
 import { sequelize } from "./models/sequelize-wrapper";
 

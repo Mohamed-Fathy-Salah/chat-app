@@ -2,8 +2,8 @@ import { BelongsTo, Column, Default, ForeignKey, Model, Table } from "sequelize-
 import {User} from './user'
 import {Group} from './group'
 import { sequelize } from "./sequelize-wrapper";
-import { NotFoundError } from "../../errors/not-found-error";
-import { NotAuthorizedError } from "../../errors/not-authorized-error";
+import { NotFoundError } from "../errors/not-found-error";
+import { NotAuthorizedError } from "../errors/not-authorized-error";
 
 @Table({timestamps: false})
 export class Connection extends Model {

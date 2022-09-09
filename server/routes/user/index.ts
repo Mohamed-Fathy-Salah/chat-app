@@ -1,6 +1,6 @@
 import { Response, Request, Router } from "express";
 import { NotFoundError } from "../../errors/not-found-error";
-import { User } from "../models/user";
+import { User } from "../../models/user";
 
 const router = Router();
 

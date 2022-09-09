@@ -1,11 +1,10 @@
 import { Response, Request, Router } from "express";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Connection } from "../models/connection";
+import { Connection } from "../../models/connection";
 
 const router = Router();
 // todo: check if last admin in group then select random user and make admin
-// todo: check if last admin and last user then delete group also from groupdb
 
 router.delete(
   "/api/connection/:groupId/admin/:adminId",

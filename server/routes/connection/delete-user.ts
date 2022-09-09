@@ -1,9 +1,12 @@
 import { Response, Request, Router } from "express";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Connection } from "../models/connection";
+import { Connection } from "../../models/connection";
 
 const router = Router();
+
+// todo: if user is current user then delete them from db no auth required
+// todo: check if last user then delete group also from groupdb
 
 router.delete(
   "/api/connection/:groupId/user/:userId",

@@ -1,7 +1,7 @@
 import { Response, Request, Router } from "express";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Friend } from "../models/friend";
+import { Friend } from "../../models/friend";
 
 const router = Router();
 
@@ -20,7 +20,7 @@ router.delete(
 
     await friendship.destroy();
 
-    res.sendStatus(201);
+    res.sendStatus(200);
   }
 );
 

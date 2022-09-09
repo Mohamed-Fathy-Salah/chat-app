@@ -1,9 +1,11 @@
 import { Response, Request, Router } from "express";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Friend } from "../models/friend";
-import { User } from "../models/user";
+import { Friend } from "../../models/friend";
+import { User } from "../../models/user";
 
 const router = Router();
+
+// todo: get all friends without friend obj (spread friend obj)
 
 router.get("/api/friend", requireAuth, async (req: Request, res: Response) => {
   const userId = req.currentUser!.id;

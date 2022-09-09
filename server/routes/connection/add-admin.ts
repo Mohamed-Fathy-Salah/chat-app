@@ -2,25 +2,28 @@ import { Response, Request, Router } from "express";
 import { body } from "express-validator";
 import { validateRequest } from "../../middlewares/validate-request";
 import { requireAuth } from "../../middlewares/require-auth";
-import { Connection } from "../models/connection";
+import { Connection } from "../../models/connection";
 import { NotFoundError } from "../../errors/not-found-error";
 
 const router = Router();
 
 router.post(
-  "/api/connection/:groupId/admin/:adminId",
+  "/api/connection/admin",
   requireAuth,
-  body("userId").notEmpty(),
+  [
+      body("userId").notEmpty(),
+      body("groupId").notEmpty(),
+  ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const groupId = req.params.groupId;
-    const userId = req.currentUser!.id;
+    const groupId = req.body.groupId;
+    const currentUserId = req.currentUser!.id;
 
     // make sure current user is admin
-    await Connection.isAdmin(userId, groupId);
+    await Connection.isAdmin(currentUserId, groupId);
 
     // make sure connection exists
-    const adminId = req.params.adminId;
+    const adminId = req.body.userId;
     const connection = await Connection.findOne({where: {userId: adminId, groupId}});
 
     if(!connection) {

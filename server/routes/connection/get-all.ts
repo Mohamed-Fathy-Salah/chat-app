@@ -1,6 +1,6 @@
 import { Response, Request, Router } from "express";
-import { Connection } from "../models/connection";
-import { User } from "../models/user";
+import { Connection } from "../../models/connection";
+import { User } from "../../models/user";
 
 const router = Router();
 
