@@ -1,3 +1,4 @@
+import path from "path";
 import "express-async-errors";
 import express from "express";
 import { json } from "body-parser";
@@ -63,9 +64,12 @@ app.use(deleteAdminRouter);
 app.use(deleteUserRouter);
 app.use(getGroupUsersRouter);
 
+app.use(express.static(path.join(__dirname, "..", "client")));
+
 app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
+
 app.use(errorHandler);
 
 export { app };

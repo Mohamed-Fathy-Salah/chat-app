@@ -4,6 +4,8 @@ import { validateRequest } from "../../middlewares/validate-request";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Group } from "../../models/group";
 import { Connection } from "../../models/connection";
+import { io } from "../../socketWrapper";
+import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -22,7 +24,8 @@ router.post(
       // save userId, groupId, isAdmin=1 to connection db
       await Connection.create({userId, groupId, admin: true})
 
-      // todo: emit group created
+      // emit group created
+      io.emit(EventNames.GROUP_CREATED, {userId, groupId});
       
     res.sendStatus(201);
   }

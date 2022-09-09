@@ -1,8 +1,10 @@
 import { Response, Request, Router } from "express";
 import { body } from "express-validator";
+import { EventNames } from "../../../events/event-names";
 import { requireAuth } from "../../middlewares/require-auth";
 import { validateRequest } from "../../middlewares/validate-request";
 import { Connection } from "../../models/connection";
+import { io } from "../../socketWrapper";
 
 const router = Router();
 
@@ -29,7 +31,8 @@ router.post(
 
     // if user is not in group
     if (created) {
-      // todo: emit user joined group
+      // emit user joined group
+      io.emit(EventNames.USER_JOINED, {userId, groupId});
     }
 
     res.sendStatus(201);

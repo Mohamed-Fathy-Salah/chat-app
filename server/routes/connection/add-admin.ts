@@ -4,6 +4,8 @@ import { validateRequest } from "../../middlewares/validate-request";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Connection } from "../../models/connection";
 import { NotFoundError } from "../../errors/not-found-error";
+import { io } from "../../socketWrapper";
+import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -35,7 +37,8 @@ router.post(
 
     await connection.save();
 
-    // todo: emit admin created
+    // emit admin created
+    io.emit(EventNames.ADMIN_CREATED, {adminId, groupId});
 
     res.sendStatus(200);
   }

@@ -1,7 +1,9 @@
 import { Response, Request, Router } from "express";
+import { EventNames } from "../../../events/event-names";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Friend } from "../../models/friend";
+import { io } from "../../socketWrapper";
 
 const router = Router();
 
@@ -19,6 +21,9 @@ router.delete(
     }
 
     await friendship.destroy();
+
+    // emit friend removed
+    io.emit(EventNames.FRIEND_REMOVED, {userId, friendId});
 
     res.sendStatus(200);
   }

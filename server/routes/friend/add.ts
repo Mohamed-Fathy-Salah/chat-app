@@ -5,6 +5,8 @@ import { requireAuth } from "../../middlewares/require-auth";
 import { NotFoundError } from "../../errors/not-found-error";
 import {User} from '../../models/user';
 import {Friend} from '../../models/friend';
+import { io } from "../../socketWrapper";
+import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -28,7 +30,8 @@ router.post(
 
      //if friendId, userId not in friend db emit message to friendid that they got friend request
     if(created) {
-        // todo: emit msg
+        // emit friend added msg
+        io.emit(EventNames.FRIEND_ADDED, {userId, friendId});
         return res.sendStatus(201);
     }
 

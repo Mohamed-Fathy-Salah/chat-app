@@ -6,6 +6,8 @@ import { upload } from "../../middlewares/storage";
 import { Group } from "../../models/group";
 import { Connection } from "../../models/connection";
 import { NotFoundError } from "../../errors/not-found-error";
+import { io } from "../../socketWrapper";
+import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -28,7 +30,7 @@ router.put(
       throw new NotFoundError();
     }
 
-    const {name, description} = req.body;
+    const { name, description } = req.body;
 
     // update name, desc
     group.set({ name, description });
@@ -36,14 +38,20 @@ router.put(
     // update photo if sent new one
     const photo = req.file;
     if (photo) {
-      group.set({photo: photo.filename});
+      group.set({ photo: photo.filename });
     }
 
     // save to group db
     await group.save();
 
-    // todo: emit group data updated
-    
+    // emit group data updated
+    io.emit(EventNames.GROUP_UPDATED, {
+      groupId: group.id,
+      name: group.name,
+      description: group.description,
+      photo: group.photo,
+    });
+
     res.sendStatus(200);
   }
 );

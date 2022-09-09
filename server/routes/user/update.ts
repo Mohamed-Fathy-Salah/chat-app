@@ -5,6 +5,8 @@ import { requireAuth } from "../../middlewares/require-auth";
 import { upload } from "../../middlewares/storage";
 import { User } from "../../models/user";
 import { NotFoundError } from "../../errors/not-found-error";
+import { io } from "../../socketWrapper";
+import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -12,10 +14,13 @@ router.put(
   "/api/user",
   requireAuth,
   upload.single("photo"),
-  [body("name").custom((val) => {
-      console.log(val)
+  [
+    body("name").custom((val) => {
+      console.log(val);
       return val;
-  }), body("status").notEmpty()],
+    }),
+    body("status").notEmpty(),
+  ],
   validateRequest,
   async (req: Request, res: Response) => {
     const { name, status } = req.body;
@@ -40,7 +45,14 @@ router.put(
 
     await user.save();
 
-    // todo: emit user data updated
+    // emit user data updated
+    io.emit(EventNames.USER_UPDATED, {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      status: user.status,
+      photo: user.photo,
+    });
 
     res.sendStatus(204);
   }

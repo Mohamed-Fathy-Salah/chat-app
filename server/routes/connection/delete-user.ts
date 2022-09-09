@@ -1,7 +1,9 @@
 import { Response, Request, Router } from "express";
+import { EventNames } from "../../../events/event-names";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Connection } from "../../models/connection";
+import { io } from "../../socketWrapper";
 
 const router = Router();
 
@@ -31,7 +33,8 @@ router.delete(
     // delete userId, groupId from connection db
     await connection.destroy();
 
-    // todo: emit user removed
+    // emit user removed
+    io.emit(EventNames.USER_REMOVED, {userId, groupId});
     res.sendStatus(200);
   }
 );

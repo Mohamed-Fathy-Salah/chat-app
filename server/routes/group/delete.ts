@@ -1,7 +1,9 @@
 import { Response, Request, Router } from "express";
+import { EventNames } from "../../../events/event-names";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Connection } from "../../models/connection";
 import { Group } from "../../models/group";
+import { io } from "../../socketWrapper";
 
 const router = Router();
 
@@ -21,7 +23,8 @@ router.delete(
     // delete group from group db
     await Group.destroy({where: {id: groupId}});
 
-    // todo: emit group deleted
+    // emit group deleted
+    io.emit(EventNames.GROUP_DELETED, {groupId});
 
     res.sendStatus(200);
   }
