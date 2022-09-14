@@ -119,7 +119,7 @@ a {
 	display: flex;
 }
 
-.chat-form-container input[type='text'] {
+.chat-form-container input {
 	font-size: 16px;
 	padding: 5px;
 	height: 40px;
@@ -159,7 +159,7 @@ a {
 	margin-bottom: 5px;
 }
 
-.join-main input[type='text'] {
+.join-main input {
 	font-size: 16px;
 	padding: 5px;
 	height: 40px;
