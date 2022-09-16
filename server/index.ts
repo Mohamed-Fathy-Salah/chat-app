@@ -12,7 +12,7 @@ const start = async () => {
   const server = createServer(app);
 
   const botName = "ChatCord Bot";
-  const io = new Server(server, {});
+  const io = new Server(server, { cookie: true });
 
   io.on("connection", (socket: Socket) => {
     socket.emit("message", formatMessage(botName, "welcome to chatcord!"));
@@ -27,7 +27,7 @@ const start = async () => {
     });
 
     socket.on("chatMessage", (msg) => {
-        console.log("chat message from server", msg);
+      console.log("chat message from server", msg);
       io.emit("message", formatMessage("user", msg));
     });
   });
