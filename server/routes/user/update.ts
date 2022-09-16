@@ -5,8 +5,6 @@ import { requireAuth } from "../../middlewares/require-auth";
 import { upload } from "../../middlewares/storage";
 import { User } from "../../models/user";
 import { NotFoundError } from "../../errors/not-found-error";
-import { io } from "../../socketWrapper";
-import { EventNames } from "../../../events/event-names";
 
 const router = Router();
 
@@ -44,15 +42,6 @@ router.put(
     }
 
     await user.save();
-
-    // emit user data updated
-    io.emit(EventNames.USER_UPDATED, {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      status: user.status,
-      photo: user.photo,
-    });
 
     res.sendStatus(204);
   }

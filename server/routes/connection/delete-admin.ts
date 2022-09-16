@@ -1,9 +1,7 @@
 import { Response, Request, Router } from "express";
-import { EventNames } from "../../../events/event-names";
 import { NotFoundError } from "../../errors/not-found-error";
 import { requireAuth } from "../../middlewares/require-auth";
 import { Connection } from "../../models/connection";
-import { io } from "../../socketWrapper";
 
 const router = Router();
 // todo: check if last admin in group then select random user and make admin
@@ -34,9 +32,6 @@ router.delete(
       connection.set({ admin: false });
 
       await connection.save();
-
-      // emit admin removed
-      io.emit(EventNames.ADMIN_REMOVED, {adminId, groupId});
     }
 
     res.sendStatus(200);

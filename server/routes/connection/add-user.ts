@@ -1,20 +1,15 @@
 import { Response, Request, Router } from "express";
 import { body } from "express-validator";
-import { EventNames } from "../../../events/event-names";
 import { requireAuth } from "../../middlewares/require-auth";
 import { validateRequest } from "../../middlewares/validate-request";
 import { Connection } from "../../models/connection";
-import { io } from "../../socketWrapper";
 
 const router = Router();
 
 router.post(
   "/api/connection/user",
   requireAuth,
-  [
-      body("groupId").notEmpty(),
-      body("userId").notEmpty()
-  ],
+  [body("groupId").notEmpty(), body("userId").notEmpty()],
   validateRequest,
   async (req: Request, res: Response) => {
     const groupId = req.body.groupId;
@@ -31,11 +26,10 @@ router.post(
 
     // if user is not in group
     if (created) {
-      // emit user joined group
-      io.emit(EventNames.USER_JOINED, {userId, groupId});
+      return res.sendStatus(201);
     }
 
-    res.sendStatus(201);
+    res.sendStatus(200);
   }
 );
 
