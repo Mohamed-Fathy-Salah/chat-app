@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import useRequest from "../../hooks/use-request";
+import axios from "axios";
 
 const Signout = () => {
-  const { doRequest } = useRequest({
-    url: "/api/auth/signout",
-    method: "post",
-    body: {},
-    onSuccess: () => Router.push("/"),
-  });
 
   useEffect(() => {
-    doRequest();
+    //doRequest();
+      const logout = async () => {
+          await axios.post(
+              "http://localhost:3001/api/auth/signout",
+              {},
+              { withCredentials: true }
+          );
+      }
+      logout();
+      Router.push("/");
   }, []);
 
   return <div>Signing you out...</div>;

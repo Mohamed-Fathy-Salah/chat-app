@@ -1,9 +1,8 @@
-import path from "path";
 import "express-async-errors";
 import express from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
-import cors from 'cors';
+import cors from "cors";
 
 import { currentUser } from "./middlewares/current-user";
 import { NotFoundError } from "./errors/not-found-error";
@@ -32,13 +31,14 @@ const app = express();
 
 app.set("trust proxy", true);
 app.use(json());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(
   cookieSession({
     signed: false,
     secure: false,
+    httpOnly: false
   })
 );
+app.use(cors({ credentials: true, origin: true }));
 
 app.use(currentUser);
 

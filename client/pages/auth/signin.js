@@ -1,24 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Router from "next/router";
-import useRequest from "../../hooks/use-request";
+import AuthContext from "../../context/AuthContext";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { doRequest, errors } = useRequest({
-    url: "/auth/signin",
-    method: "post",
-    body: {
-      email,
-      password,
-    },
-    onSuccess: () => Router.push("/"),
-  });
+  const { login, error } = useContext(AuthContext);
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    login({ email, password });
 
-    await doRequest();
+    if (error) {
+      console.error(error);
+    }
+    Router.push("/");
   };
 
   return (
@@ -41,7 +37,6 @@ const Signin = () => {
           className="form-control"
         />
       </div>
-      {errors}
       <button className="btn btn-primary">Sign In</button>
     </form>
   );

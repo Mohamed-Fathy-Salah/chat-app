@@ -1,25 +1,23 @@
-import { useState } from "react";
 import Router from "next/router";
-import useRequest from "../../hooks/use-request";
+import { useState, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { doRequest, errors } = useRequest({
-      url: "/auth/signup",
-    method: "post",
-    body: {
-      email,
-      password,
-    },
-    onSuccess: () => Router.push("/"),
-  });
+  const { register, error } = useContext(AuthContext);
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    await doRequest();
+    register({ name, email, password });
+
+    if (error) {
+      console.error(error);
+    }
+
+    Router.push("/");
   };
 
   return (
@@ -50,7 +48,6 @@ const Signup = () => {
           className="form-control"
         />
       </div>
-      {errors}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );

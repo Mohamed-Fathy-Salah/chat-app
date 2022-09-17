@@ -1,20 +1,41 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import useContext from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Header = ({ currentUser }) => {
+  const router = useRouter();
+  const { logout, error } = useContext(AuthContext);
+  const handleLogout = () => {
+    logout();
+
+    if (error) {
+      console.error(error);
+    }
+
+    router.push("/");
+  };
+
   const links = [
-    !currentUser && { label: "Sign Up", href: "/auth/signup" },
-    !currentUser && { label: "Sign In", href: "/auth/signin" },
-    currentUser && { label: "Sell Tickets", href: "/tickets/new" },
-    currentUser && { label: "My Orders", href: "/orders" },
-    currentUser && { label: "Sign Out", href: "/auth/signout" },
+    !currentUser && {
+      label: "Sign Up",
+      onclick: () => {
+        router.push("/auth/signup");
+      },
+    },
+    !currentUser && {
+      label: "Sign In",
+      onclick: () => {
+        router.push("/auth/signin");
+      },
+    },
+    currentUser && { label: "Sign Out", onclick: handleLogout() },
   ]
     .filter((linkConfig) => linkConfig)
-    .map(({ label, href }) => {
+    .map(({ label, onclick }) => {
       return (
-        <li key={href} className="nav-item">
-          <Link href={href}>
-            <a className="nav-link">{label}</a>
-          </Link>
+        <li key={label} className="nav-item">
+            <a className="nav-link" onClick={onclick}>{label}</a>
         </li>
       );
     });

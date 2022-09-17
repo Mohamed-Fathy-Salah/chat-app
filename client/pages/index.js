@@ -1,15 +1,13 @@
-const LandingPage = ({ currentUser }) => {
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+
+const LandingPage = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div>
-      <h1>{JSON.stringify(currentUser)}</h1>
+      <h1>{JSON.stringify(user)}</h1>
     </div>
   );
-};
-
-LandingPage.getInitialProps = async (context, client, currentUser) => {
-    const data = await client.get('/auth/currentUser')
-    console.log(data)
-    return {currentUser: data.data};
 };
 
 export default LandingPage;
