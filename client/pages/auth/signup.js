@@ -8,7 +8,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const { register, error } = useContext(AuthContext);
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
 
     register({ name, email, password });

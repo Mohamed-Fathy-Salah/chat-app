@@ -7,7 +7,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const { login, error } = useContext(AuthContext);
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     login({ email, password });
 

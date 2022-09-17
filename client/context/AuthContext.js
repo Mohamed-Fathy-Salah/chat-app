@@ -9,43 +9,57 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    checkUserLoggedIn();
-  }, []);
+    getCurrentUser();
+  }, [user]);
 
   const register = async (user) => {
     try {
-      await axios.post(BASE + "/signup", user);
+      setIsLoading(true);
+      await axios.post(BASE + "/signup", user, { withCredentials: true });
+      setIsLoading(false);
+      await getCurrentUser();
+
       setError(null);
       router.push("/");
     } catch (err) {
-      setError( {err.response.data.errors.map((err) => ( {err.message}))});
+      setError(err.response.data.errors.map((err) => err.message));
     }
   };
 
   const login = async (user) => {
     try {
-      await axios.post(BASE + "/signin", user);
+      setIsLoading(true);
+      await axios.post(BASE + "/signin", user, { withCredentials: true });
+      setIsLoading(false);
+      await getCurrentUser();
       setError(null);
       router.push("/");
     } catch (err) {
-      setError( {err.response.data.errors.map((err) => ( {err.message}))});
+      setError(err.response.data.errors.map((err) => err.message));
     }
   };
 
   const logout = async () => {
-    await axios.post(BASE + "/signout");
+    setIsLoading(true);
+    await axios.post(BASE + "/signout", {}, { withCredentials: true });
+    setIsLoading(false);
     setUser(null);
     router.push("/");
   };
 
-  const checkUserLoggedIn = async () => {
+  const getCurrentUser = async () => {
     try {
-      const { data } = await axios.get(BASE + "/currentuser");
+      setIsLoading(true);
+      const { data } = await axios.get(BASE + "/currentuser", {
+        withCredentials: true,
+      });
+      setIsLoading(false);
       if (data) {
-        setUser(data.currentuser);
+        setUser(data);
       }
     } catch (e) {
       console.log(e);
@@ -54,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, error, register, login, logout }}
+      value={{ user, error, register, login, logout, isLoading }}
     >
       {children}
     </AuthContext.Provider>

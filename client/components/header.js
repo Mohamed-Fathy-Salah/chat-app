@@ -1,44 +1,47 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import useContext from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthContext";
 
-const Header = ({ currentUser }) => {
+const Header = () => {
   const router = useRouter();
-  const { logout, error } = useContext(AuthContext);
+  const { user, logout, error, isLoading } = useContext(AuthContext);
+  const [nav, setNav] = useState(<span>loading...</span>);
+
+  useEffect(() => {
+    if (user) {
+      setNav(
+        <li className="nav-item">
+          <a className="nav-link" onClick={handleLogout}>
+            logout
+          </a>
+        </li>
+      );
+    } else {
+      setNav(
+        <>
+          <li className="nav-item">
+            <Link href="/auth/signup">
+              <a className="nav-link"> register </a>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link href="/auth/signin">
+              <a className="nav-link"> signin </a>
+            </Link>
+          </li>
+        </>
+      );
+    }
+  }, [isLoading, user]);
+
   const handleLogout = () => {
     logout();
 
     if (error) {
       console.error(error);
     }
-
-    router.push("/");
   };
-
-  const links = [
-    !currentUser && {
-      label: "Sign Up",
-      onclick: () => {
-        router.push("/auth/signup");
-      },
-    },
-    !currentUser && {
-      label: "Sign In",
-      onclick: () => {
-        router.push("/auth/signin");
-      },
-    },
-    currentUser && { label: "Sign Out", onclick: handleLogout() },
-  ]
-    .filter((linkConfig) => linkConfig)
-    .map(({ label, onclick }) => {
-      return (
-        <li key={label} className="nav-item">
-            <a className="nav-link" onClick={onclick}>{label}</a>
-        </li>
-      );
-    });
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -47,7 +50,7 @@ const Header = ({ currentUser }) => {
       </Link>
 
       <div className="d-flex justify-content-end">
-        <ul className="nav d-flex align-items-center">{links}</ul>
+        <ul className="nav d-flex align-items-center">{nav}</ul>
       </div>
     </nav>
   );
