@@ -34,8 +34,8 @@ const start = async () => {
 
   await sequelize.sync();
 
-  server.listen(3000, async () => {
-    console.log("listening on port 3000");
+  server.listen(3001, async () => {
+    console.log("listening on port 3001");
   });
 };
 
