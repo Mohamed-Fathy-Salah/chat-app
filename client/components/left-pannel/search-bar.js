@@ -1,5 +1,5 @@
 const SearchBar = () => {
-  return <h1> search bar</h1>;
+  return <h1 style={{ backgroundColor: "green" }}> search bar</h1>;
 };
 
 export default SearchBar;

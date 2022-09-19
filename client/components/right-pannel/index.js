@@ -7,6 +7,8 @@ const RightPannel = () => {
         <Message />
         <Message />
         <Message />
+        <Message />
+        <Message />
         <SendBar />
         </div>;
 };

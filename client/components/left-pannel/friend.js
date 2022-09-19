@@ -1,5 +1,5 @@
 const Friends = ({ currentUser }) => {
-  return <h1>friend</h1>;
+  return <h1 style={{ backgroundColor: "red" }}>friend</h1>;
 };
 
 export default Friends;

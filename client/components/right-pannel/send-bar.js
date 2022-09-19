@@ -1,5 +1,5 @@
 const SendBar = () => {
-  return <h1> send bar</h1>;
+  return <h1 style={{ backgroundColor: "blue" }}> send bar </h1>;
 };
 
 export default SendBar;
