@@ -1,11 +1,7 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
-
-const LandingPage = () => {
-  const { user } = useContext(AuthContext);
+const LandingPage = ({ currentUser }) => {
   return (
     <div>
-      <h1>{JSON.stringify(user)}</h1>
+      <h1>hi {JSON.stringify(currentUser)}</h1>
     </div>
   );
 };

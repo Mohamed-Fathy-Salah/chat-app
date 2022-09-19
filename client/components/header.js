@@ -1,47 +1,22 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import AuthContext from "../context/AuthContext";
 
-const Header = () => {
-  const router = useRouter();
-  const { user, logout, error, isLoading } = useContext(AuthContext);
-  const [nav, setNav] = useState(<span>loading...</span>);
-
-  useEffect(() => {
-    if (user) {
-      setNav(
-        <li className="nav-item">
-          <a className="nav-link" onClick={handleLogout}>
-            logout
-          </a>
+const Header = ({ currentUser }) => {
+    console.log("---------->", currentUser);
+  const links = [
+    !currentUser && { label: "Sign Up", href: "/auth/signup" },
+    !currentUser && { label: "Sign In", href: "/auth/signin" },
+    currentUser && { label: "Sign Out", href: "/auth/signout" },
+  ]
+    .filter((linkConfig) => linkConfig)
+    .map(({ label, href }) => {
+      return (
+        <li key={href} className="nav-item">
+          <Link href={href}>
+            <a className="nav-link">{label}</a>
+          </Link>
         </li>
       );
-    } else {
-      setNav(
-        <>
-          <li className="nav-item">
-            <Link href="/auth/signup">
-              <a className="nav-link"> register </a>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/auth/signin">
-              <a className="nav-link"> signin </a>
-            </Link>
-          </li>
-        </>
-      );
-    }
-  }, [isLoading, user]);
-
-  const handleLogout = () => {
-    logout();
-
-    if (error) {
-      console.error(error);
-    }
-  };
+    });
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -50,7 +25,7 @@ const Header = () => {
       </Link>
 
       <div className="d-flex justify-content-end">
-        <ul className="nav d-flex align-items-center">{nav}</ul>
+        <ul className="nav d-flex align-items-center">{links}</ul>
       </div>
     </nav>
   );

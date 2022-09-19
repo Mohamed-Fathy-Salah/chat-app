@@ -1,23 +1,27 @@
 import Router from "next/router";
-import { useState, useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import { useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { register, error } = useContext(AuthContext);
+  const [name, setName] = useState("adf");
+  const [email, setEmail] = useState("aa@aa.com");
+  const [password, setPassword] = useState("123456");
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
-    register({ name, email, password });
-
-    if (error) {
-      console.error(error);
+    try {
+      await axios.post(
+        "http://localhost:3001/api/auth/signup",
+        { name, email, password },
+        {
+          withCredentials: true,
+        }
+      );
+      Router.push("/");
+    } catch (e) {
+      console.error(e);
     }
-
-    Router.push("/");
   };
 
   return (

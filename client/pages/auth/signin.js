@@ -1,19 +1,12 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Router from "next/router";
-import AuthContext from "../../context/AuthContext";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error } = useContext(AuthContext);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    login({ email, password });
-
-    if (error) {
-      console.error(error);
-    }
     Router.push("/");
   };
 
