@@ -1,13 +1,23 @@
 import { useState } from "react";
 import Router from "next/router";
+import axios from "axios";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    Router.push("/");
+    try {
+      await axios.post(
+        "http://localhost:3001/api/auth/signin",
+        { email, password },
+        { withCredentials: true }
+      );
+      Router.push("/chat");
+    } catch (e) {
+      console.error("---", e);
+    }
   };
 
   return (

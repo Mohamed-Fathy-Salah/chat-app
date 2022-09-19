@@ -1,9 +1,10 @@
+//import Link from "next/link";
+
 const LandingPage = ({ currentUser }) => {
-  return (
-    <div>
-      <h1>hi {JSON.stringify(currentUser)}</h1>
-    </div>
-  );
+    console.log("===> ", currentUser);
+    return (
+        <h1> hi {currentUser} </h1>
+    );
 };
 
 export default LandingPage;

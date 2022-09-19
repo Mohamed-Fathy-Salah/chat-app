@@ -1,26 +1,23 @@
-import Router from "next/router";
 import { useState } from "react";
+import Router from "next/router";
 import axios from "axios";
 
 const Signup = () => {
-  const [name, setName] = useState("adf");
+  const [name, setName] = useState("aaa");
   const [email, setEmail] = useState("aa@aa.com");
   const [password, setPassword] = useState("123456");
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
     try {
       await axios.post(
         "http://localhost:3001/api/auth/signup",
         { name, email, password },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      Router.push("/");
+      Router.push("/chat");
     } catch (e) {
-      console.error(e);
+      console.error("---", e);
     }
   };
 

@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 const Header = ({ currentUser }) => {
-    console.log("---------->", currentUser);
   const links = [
     !currentUser && { label: "Sign Up", href: "/auth/signup" },
     !currentUser && { label: "Sign In", href: "/auth/signin" },

@@ -1,34 +1,28 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Header from "../components/header";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 const AppComponent = ({ Component, pageProps }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    getCurrentUser();
-  }, [user]);
-
-  const getCurrentUser = () => {
-    try {
-      const { data } = axios.get("http://localhost:3001/api/auth/currentUser", {
-        withCredentials: true,
-      });
-        console.log("=========", data)
-      setUser(data);
-    } catch (e) {
-      setUser(null);
-    }
-  };
+  axios
+    .get("http://localhost:3001/api/auth/currentuser", {
+      withCredentials: true,
+    })
+    .then((res) => {
+      setUser(
+        res.data.currentUser ? JSON.stringify(res.data.currentUser) : null
+      );
+    });
 
   return (
-    <>
+    <div>
       <Header currentUser={user} />
       <div className="container">
-        <Component {...pageProps} />
+        <Component currentUser={user} {...pageProps} />
       </div>
-    </>
+    </div>
   );
 };
 

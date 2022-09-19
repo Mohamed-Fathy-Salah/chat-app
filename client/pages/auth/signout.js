@@ -1,9 +1,18 @@
 import { useEffect } from "react";
 import Router from "next/router";
-
+import axios from "axios";
 const Signout = () => {
   useEffect(() => {
-    Router.push("/");
+    try {
+      axios.post(
+        "http://localhost:3001/api/auth/signout",
+        {},
+        { withCredentials: true }
+      );
+      Router.push("/");
+    } catch (e) {
+      console.error("---", e);
+    }
   }, []);
 
   return <div>Signing you out...</div>;
