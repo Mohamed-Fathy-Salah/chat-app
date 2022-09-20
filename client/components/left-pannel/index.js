@@ -1,12 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import SearchBar from "./search-bar";
 import Friend from "./friend";
+import Top from "./top";
 import client from "../../api/build-client";
 import { useEffect, useState } from "react";
 
 const LeftPannel = () => {
   const [friends, setFriends] = useState([
     { friend: { id: 1 } },
+    { friend: { id: 2 } },
+    { friend: { id: 2 } },
     { friend: { id: 2 } },
     { friend: { id: 2 } },
   ]);
@@ -22,6 +25,7 @@ const LeftPannel = () => {
 
   return (
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+      <Top/>
       <SearchBar />
       <div
         data-mdb-perfect-scrollbar="true"
@@ -34,9 +38,6 @@ const LeftPannel = () => {
             </li>
           ))}
         </ul>
-        <button type="button" className="btn btn-primary sticky-bottom">
-          +
-        </button>
       </div>
     </div>
   );
