@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Router from "next/router";
-import axios from "axios";
+import client from "../../api/build-client";
 
 const Signin = () => {
   const [email, setEmail] = useState("aa@aa.com");
@@ -9,11 +9,7 @@ const Signin = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(
-        "http://localhost:3001/api/auth/signin",
-        { email, password },
-        { withCredentials: true }
-      );
+      await client().post("/auth/signin", { email, password });
       Router.push("/");
     } catch (e) {
       console.error("---", e);

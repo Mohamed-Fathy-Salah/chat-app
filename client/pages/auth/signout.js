@@ -1,14 +1,11 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import axios from "axios";
+import client from "../../api/build-client";
+
 const Signout = () => {
   useEffect(() => {
     try {
-      axios.post(
-        "http://localhost:3001/api/auth/signout",
-        {},
-        { withCredentials: true }
-      );
+      client().post("/auth/signout");
       Router.push("/");
     } catch (e) {
       console.error("---", e);

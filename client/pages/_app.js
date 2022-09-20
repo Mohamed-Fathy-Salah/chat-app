@@ -1,19 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Header from "../components/header";
-import axios from "axios";
 import { useState } from "react";
+import client from "../api/build-client";
 
 const AppComponent = ({ Component, pageProps }) => {
   const [user, setUser] = useState(null);
 
-  axios
-    .get("http://localhost:3001/api/auth/currentuser", {
-      withCredentials: true,
-    })
-    .then((res) => {
-      setUser(
-        res.data.currentUser ? JSON.stringify(res.data.currentUser) : null
-      );
+  client()
+    .get("/auth/currentuser")
+    .then(({ data }) => {
+      setUser(data.currentUser ? JSON.stringify(data.currentUser) : null);
     });
 
   return (

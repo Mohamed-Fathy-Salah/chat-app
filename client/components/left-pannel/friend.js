@@ -1,10 +1,10 @@
-const Friends = ({ currentUser }) => {
+const Friends = ({ data }) => {
   return (
     <div>
       <div className="d-flex flex-row">
         <div>
           <img
-            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360"
             alt="avatar"
             className="d-flex align-self-center me-3"
             width={60}
@@ -12,8 +12,8 @@ const Friends = ({ currentUser }) => {
           <span className="badge bg-success badge-dot" />
         </div>
         <div className="pt-1">
-          <p className="fw-bold mb-0">Marie Horwitz</p>
-          <p className="small text-muted">Hello, Are you there?</p>
+          <p className="fw-bold mb-0">{data.name}</p>
+          <p className="small text-muted">{data.email}</p>
         </div>
       </div>
       <div className="pt-1">
