@@ -3,8 +3,8 @@ import Router from "next/router";
 import axios from "axios";
 
 const Signin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("aa@aa.com");
+  const [password, setPassword] = useState("123456");
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -14,7 +14,7 @@ const Signin = () => {
         { email, password },
         { withCredentials: true }
       );
-      Router.push("/chat");
+      Router.push("/");
     } catch (e) {
       console.error("---", e);
     }

@@ -15,7 +15,7 @@ const Signup = () => {
         { name, email, password },
         { withCredentials: true }
       );
-      Router.push("/chat");
+      Router.push("/");
     } catch (e) {
       console.error("---", e);
     }

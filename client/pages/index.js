@@ -1,10 +1,6 @@
-//import Link from "next/link";
-
+import Chat from "./chat/index";
 const LandingPage = ({ currentUser }) => {
-    console.log("===> ", currentUser);
-    return (
-        <h1> hi {currentUser} </h1>
-    );
+  return currentUser ? <Chat /> : <h1>sign in/up first</h1>;
 };
 
 export default LandingPage;
