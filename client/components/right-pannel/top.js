@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
+
 const Top = () => {
   return (
     <nav className="navbar navbar-light bg-light">
@@ -13,7 +16,9 @@ const Top = () => {
       <div className="d-flex justify-content-end">
         <ul className="nav d-flex align-items-center">
           <li className="nav-item">
-            <a className="nav-link">:</a>
+            <a className="nav-link">
+              <FontAwesomeIcon icon={faCog} />
+            </a>
           </li>
         </ul>
       </div>

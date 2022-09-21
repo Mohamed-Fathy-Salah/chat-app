@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev server/index.ts",
-    "dev": "export JWT_KEY=adf && npm run start"
+    "dev": "(export JWT_KEY=adf && npm run start) & (cd client && npm run dev)"
   },
   "keywords": [],
   "author": "",

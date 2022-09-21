@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFaceSmile, faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+
 const SendBar = () => {
   return (
     <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
@@ -13,13 +16,13 @@ const SendBar = () => {
         placeholder="Type message"
       />
       <a className="ms-1 text-muted" href="#!">
-        <i className="fas fa-paperclip" />
+        <FontAwesomeIcon icon={faFaceSmile} />
       </a>
       <a className="ms-3 text-muted" href="#!">
-        <i className="fas fa-smile" />
+        <FontAwesomeIcon icon={faPaperclip} />
       </a>
       <a className="ms-3" href="#!">
-        <i className="fas fa-paper-plane" />
+        <FontAwesomeIcon icon={faPaperPlane} />
       </a>
     </div>
   );
