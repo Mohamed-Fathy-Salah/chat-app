@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-const SendBar = ({ currentUser, onSend }) => {
+const SendBar = ({ photo, onSend }) => {
   const message = useRef();
 
   const send = () => {
@@ -17,7 +17,7 @@ const SendBar = ({ currentUser, onSend }) => {
   return (
     <div className="text-muted d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
       <img
-        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
+        src={photo}
         alt="avatar 3"
         style={{ width: "40px", height: "100%" }}
       />

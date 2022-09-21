@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 
-const Top = () => {
+const Top = ({photo}) => {
   return (
     <nav className="navbar navbar-light bg-light">
       <div>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360"
+          src={photo}
           alt="avatar"
           className="d-flex align-self-center me-3"
           width={60}

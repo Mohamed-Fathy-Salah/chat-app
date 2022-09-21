@@ -4,14 +4,33 @@ import Friend from "./friend";
 import Top from "./top";
 import client from "../../api/build-client";
 import { useEffect, useState } from "react";
+import uuid from "react-uuid";
 
-const LeftPannel = () => {
+const LeftPannel = ({ onChooseFriend }) => {
   const [friends, setFriends] = useState([
-    { friend: { id: 1 } },
-    { friend: { id: 2 } },
-    { friend: { id: 3 } },
-    { friend: { id: 4 } },
-    { friend: { id: 5 } },
+    {
+      friend: {
+        name: "1",
+        email: "e1",
+        photo:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png",
+      },
+    },
+    {
+      friend: {
+        name: "2",
+        email: "e2",
+        photo: "https://i.stack.imgur.com/ILTQq.png",
+      },
+    },
+    {
+      friend: {
+        name: "3",
+        email: "e3",
+        photo:
+          "https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium",
+      },
+    },
   ]);
 
   useEffect(() => {
@@ -24,7 +43,7 @@ const LeftPannel = () => {
 
   return (
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-      <Top/>
+      <Top />
       <SearchBar />
       <div
         data-mdb-perfect-scrollbar="true"
@@ -32,7 +51,13 @@ const LeftPannel = () => {
       >
         <ul className="list-unstyled mb-0">
           {friends.map(({ friend }) => (
-            <li key={friend.id} className="p-2 border-bottom">
+            <li
+              key={uuid()}
+              className="p-2 border-bottom"
+              onClick={() => {
+                onChooseFriend(friend);
+              }}
+            >
               <Friend data={friend} />
             </li>
           ))}

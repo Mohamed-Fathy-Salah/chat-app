@@ -1,10 +1,10 @@
-const Friends = ({ data }) => {
+const Friend = ({ data }) => {
   return (
     <div>
       <div className="d-flex flex-row">
         <div>
           <img
-            src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png?w=360"
+            src={data.photo}
             alt="avatar"
             className="d-flex align-self-center me-3"
             width={60}
@@ -24,4 +24,4 @@ const Friends = ({ data }) => {
   );
 };
 
-export default Friends;
+export default Friend;
