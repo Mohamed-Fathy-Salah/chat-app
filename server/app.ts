@@ -35,10 +35,15 @@ app.use(
   cookieSession({
     signed: false,
     secure: false,
-    httpOnly: false
+    httpOnly: false,
   })
 );
-app.use(cors({ credentials: true, origin: true }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 
 app.use(currentUser);
 

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import client from "../../api/build-client";
 
 const Signout = () => {
+  const router = useRouter();
   useEffect(() => {
     try {
       client().post("/auth/signout");
-      Router.push("/");
+      router.push("/");
     } catch (e) {
       console.error("---", e);
     }

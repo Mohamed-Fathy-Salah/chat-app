@@ -9,16 +9,15 @@ const LeftPannel = () => {
   const [friends, setFriends] = useState([
     { friend: { id: 1 } },
     { friend: { id: 2 } },
-    { friend: { id: 2 } },
-    { friend: { id: 2 } },
-    { friend: { id: 2 } },
+    { friend: { id: 3 } },
+    { friend: { id: 4 } },
+    { friend: { id: 5 } },
   ]);
 
   useEffect(() => {
     client()
       .get("/friend")
       .then(({ data }) => {
-        console.log("friends ", data);
         setFriends(data);
       });
   }, []);

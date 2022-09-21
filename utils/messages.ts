@@ -1,13 +1,11 @@
 export interface Message {
-  username: string;
-  text: string;
+  userId: number;
+  userName: string;
+  userPhoto: string;
+  body: string;
   time: string;
 }
 
-export function formatMessage(username: string, text: string): Message {
-  return {
-    username,
-    text,
-    time: new Date().toLocaleTimeString(),
-  };
+export function formatMessage(message: Message): Message {
+  return message;
 }

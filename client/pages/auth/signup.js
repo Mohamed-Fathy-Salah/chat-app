@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import client from "../../api/build-client";
 
 const Signup = () => {
+  const router = useRouter();
   const [name, setName] = useState("aaa");
   const [email, setEmail] = useState("aa@aa.com");
   const [password, setPassword] = useState("123456");
@@ -11,7 +12,7 @@ const Signup = () => {
     event.preventDefault();
     try {
       await client().post("/auth/signup", { name, email, password });
-      Router.push("/");
+      router.push("/");
     } catch (e) {
       console.error("---", e);
     }

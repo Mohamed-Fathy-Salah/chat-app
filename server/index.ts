@@ -12,23 +12,49 @@ const start = async () => {
   const server = createServer(app);
 
   const botName = "ChatCord Bot";
+  const botPhoto =
+    "https://w7.pngwing.com/pngs/658/334/png-transparent-robot-icon-flat-flat-design-technology-talk-logo-machine-reception-connection.png";
+
   const io = new Server(server, {});
 
   io.on("connection", (socket: Socket) => {
-    socket.emit("message", formatMessage(botName, "welcome to chatcord!"));
+    socket.emit(
+      "message",
+      formatMessage({
+        userId: 0,
+        userName: botName,
+        body: "welcome to chatcord!",
+        time: new Date().toLocaleTimeString(),
+        userPhoto: botPhoto,
+      })
+    );
 
     socket.broadcast.emit(
       "message",
-      formatMessage(botName, "a user has joined the chat")
+      formatMessage({
+        userId: 0,
+        userName: botName,
+        body: "a user has joined the chat",
+        time: new Date().toLocaleTimeString(),
+        userPhoto: botPhoto,
+      })
     );
 
     socket.on("disconnect", () => {
-      io.emit("message", formatMessage(botName, "a user has left the chat"));
+      io.emit(
+        "message",
+        formatMessage({
+          userId: 0,
+          userName: botName,
+          body: "a user has left the chat",
+          time: new Date().toLocaleTimeString(),
+          userPhoto: botPhoto,
+        })
+      );
     });
 
     socket.on("chatMessage", (msg) => {
-        console.log("chat message from server", msg);
-      io.emit("message", formatMessage("user", msg));
+      io.emit("message", formatMessage(msg));
     });
   });
 
