@@ -6,7 +6,8 @@ import client from "../../api/build-client";
 import { useEffect, useState } from "react";
 import uuid from "react-uuid";
 
-const LeftPannel = ({ onChooseFriend }) => {
+const LeftPannel = ({ currentUser, onChooseFriend }) => {
+  currentUser = JSON.parse(currentUser);
   const [friends, setFriends] = useState([
     {
       friend: {
@@ -33,17 +34,21 @@ const LeftPannel = ({ onChooseFriend }) => {
     },
   ]);
 
-  useEffect(() => {
+  const update = () => {
     client()
       .get("/friend")
       .then(({ data }) => {
         setFriends(data);
       });
+  };
+
+  useEffect(() => {
+    update();
   }, []);
 
   return (
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-      <Top />
+      <Top photo={currentUser.photo} update={update} />
       <SearchBar />
       <div
         data-mdb-perfect-scrollbar="true"

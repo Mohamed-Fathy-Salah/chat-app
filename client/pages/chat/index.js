@@ -13,7 +13,7 @@ const Chat = ({ currentUser }) => {
 
   return (
     <div className="row">
-      <LeftPannel onChooseFriend={handleChooseFriend} />
+      <LeftPannel currentUser={currentUser} onChooseFriend={handleChooseFriend} />
       <RightPannel currentUser={currentUser} socket={socket} friend={friend} />
     </div>
   );
