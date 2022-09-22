@@ -24,11 +24,7 @@ const LandingPage = () => {
     <div>
       <Header currentUser={user} />
       <div className="container">
-        {user ? (
-          <Chat currentUser={user ? JSON.stringify(user) : null} />
-        ) : (
-          <h1> sign in/up first</h1>
-        )}
+        {user ? <Chat currentUser={user} /> : <h1> sign in/up first</h1>}
       </div>
     </div>
   );

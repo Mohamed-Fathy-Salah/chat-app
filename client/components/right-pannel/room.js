@@ -4,33 +4,22 @@ import SendBar from "./send-bar";
 import Top from "./top";
 import uuid from "react-uuid";
 
-const Room = ({ currentUser, socket, friend }) => {
-  currentUser = JSON.parse(currentUser);
-
-  const [messages, setMessages] = useState([
-    //{
-    //userId: currentUser.id,
-    //userName: "hi",
-    //userPhoto:
-    //"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-    //body: "wassaaaab",
-    //time: new Date().toLocaleTimeString(),
-    //},
-    //{
-    //userId: 2,
-    //userName: "my name",
-    //userPhoto:
-    //"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
-    //body: "wassaaa",
-    //time: new Date().toLocaleTimeString(),
-    //},
-  ]);
+const Room = ({ currentUser, socket, friend, db }) => {
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    const addMessage = async (message) => {
+      const newMessages = [
+        ...((await db.get("chat", friend.id.toString())) || []),
+        message,
+      ];
+      await db.put("chat", newMessages, friend.id.toString());
+      setMessages(newMessages);
+    };
     socket.on("message", (message) => {
-      setMessages([...messages, message]);
+      addMessage(message);
     });
-  }, [socket]);
+  }, [socket, friend]);
 
   const handleSend = (message) => {
     socket.emit("chatMessage", {
@@ -44,7 +33,7 @@ const Room = ({ currentUser, socket, friend }) => {
 
   return (
     <>
-      <Top photo={friend.photo} />
+      <Top data={friend} />
       <div
         className="pt-3 pe-3"
         data-mdb-perfect-scrollbar="true"

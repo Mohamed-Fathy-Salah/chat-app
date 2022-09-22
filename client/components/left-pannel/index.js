@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import uuid from "react-uuid";
 
 const LeftPannel = ({ currentUser, onChooseFriend }) => {
-  currentUser = JSON.parse(currentUser);
   const [friends, setFriends] = useState([
     {
       friend: {
@@ -48,7 +47,7 @@ const LeftPannel = ({ currentUser, onChooseFriend }) => {
 
   return (
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-      <Top photo={currentUser.photo} update={update} />
+      <Top data={currentUser} update={update} />
       <SearchBar />
       <div
         data-mdb-perfect-scrollbar="true"
