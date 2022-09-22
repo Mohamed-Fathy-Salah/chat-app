@@ -1,11 +1,7 @@
 export interface Message {
-  userId: number;
-  userName: string;
-  userPhoto: string;
+  from: number;
+  to: number;
+  groupId: number;
   body: string;
   time: string;
-}
-
-export function formatMessage(message: Message): Message {
-  return message;
 }

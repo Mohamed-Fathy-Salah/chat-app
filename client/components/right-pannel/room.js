@@ -7,28 +7,37 @@ import uuid from "react-uuid";
 const Room = ({ currentUser, socket, friend, db }) => {
   const [messages, setMessages] = useState([]);
 
+  const addMessage = async (message) => {
+    const newMessages = [
+      ...((await db.get("chat", friend.id.toString())) || []),
+      message,
+    ];
+    await db.put("chat", newMessages, friend.id.toString());
+    setMessages(newMessages);
+  };
+
   useEffect(() => {
-    const addMessage = async (message) => {
-      const newMessages = [
-        ...((await db.get("chat", friend.id.toString())) || []),
-        message,
-      ];
-      await db.put("chat", newMessages, friend.id.toString());
-      setMessages(newMessages);
-    };
     socket.on("message", (message) => {
       addMessage(message);
     });
-  }, [socket, friend]);
+  }, [socket]);
 
-  const handleSend = (message) => {
-    socket.emit("chatMessage", {
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userPhoto: currentUser.photo,
-      body: message,
-      time: new Date().toLocaleTimeString(),
+  useEffect(() => {
+    db.get("chat", friend.id.toString()).then((v) => {
+      setMessages(v || []);
     });
+  }, [friend]);
+
+  const handleSend = (body) => {
+    const message = {
+      from: currentUser.id,
+      to: friend.id,
+      groupId: null,
+      body,
+      time: new Date().toLocaleTimeString(),
+    };
+    socket.emit("chatMessage", message);
+    addMessage(message);
   };
 
   return (
@@ -43,7 +52,8 @@ const Room = ({ currentUser, socket, friend, db }) => {
           <Message
             key={uuid()}
             message={message}
-            isMine={message.userId === currentUser.id}
+            isMine={message.from === currentUser.id}
+            user={message.from === currentUser.id ? currentUser : friend}
           />
         ))}
       </div>

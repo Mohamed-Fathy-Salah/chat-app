@@ -16,7 +16,7 @@ const Top = ({ data, update }) => {
           <span className="badge bg-success badge-dot" />
         </div>
         <div className="pt-1">
-          <p className="fw-bold mb-0">{data.name}</p>
+          <p className="fw-bold mb-0">{data.id + ' ' + data.name}</p>
           <p className="small text-muted">{data.email}</p>
         </div>
       </div>

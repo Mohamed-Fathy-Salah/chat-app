@@ -10,7 +10,10 @@ const SendBar = ({ photo, onSend }) => {
   const message = useRef();
 
   const send = () => {
-    onSend(message.current.value);
+    const text = message.current.value.trim();
+    if (text) {
+      onSend(message.current.value);
+    }
     message.current.value = null;
   };
 

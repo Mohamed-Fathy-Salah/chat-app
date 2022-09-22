@@ -6,6 +6,8 @@ import { openDB } from "idb";
 
 const Chat = ({ currentUser }) => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
+  socket.emit("join", currentUser.id);
+
   const [friend, setFriend] = useState(null);
   const [db, setDB] = useState();
 

@@ -1,4 +1,4 @@
-const Message = ({ message, isMine }) => {
+const Message = ({ message, isMine, user }) => {
   if (isMine) {
     return (
       <div className="d-flex flex-row justify-content-end">
@@ -9,7 +9,7 @@ const Message = ({ message, isMine }) => {
           <p className="small me-3 mb-3 rounded-3 text-muted">{message.time}</p>
         </div>
         <img
-          src={message.userPhoto}
+          src={user.photo}
           style={{ width: "45px", height: "100%" }}
         />
       </div>
@@ -17,7 +17,7 @@ const Message = ({ message, isMine }) => {
   }
   return (
     <div className="d-flex flex-row justify-content-start">
-      <img src={message.userPhoto} style={{ width: "45px", height: "100%" }} />
+      <img src={user.photo} style={{ width: "45px", height: "100%" }} />
       <div>
         <p
           className="small p-2 ms-3 mb-1 rounded-3"
