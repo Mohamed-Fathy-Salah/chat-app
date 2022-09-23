@@ -8,36 +8,37 @@ const Room = ({ currentUser, socket, friend, db }) => {
   const messageEnd = useRef();
   const [messages, setMessages] = useState([]);
 
-  const addMessage = async (message) => {
-    if (message.to === message.from) return;
-    const newMessages = [
-      ...((await db.get("chat", friend.id.toString())) || []),
-      message,
-    ];
-    await db.put("chat", newMessages, friend.id.toString());
-    setMessages(newMessages);
-  };
-
   useEffect(() => {
-      console.log("socket")
     socket.on("message", (message) => {
-      addMessage(message);
+      addMessage(message, message.from);
     });
   }, [socket]);
 
   useEffect(() => {
-      console.log("friend")
-    db.get("chat", friend.id.toString()).then((v) => {
-      setMessages(v || []);
-    });
+    updateMessages();
   }, [friend]);
 
   useEffect(() => {
-      console.log("message")
     messageEnd.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (body) => {
+  const addMessage = async (message, to) => {
+    const newMessages = [
+      ...((await db.get(currentUser.id, to)) || []),
+      message,
+    ];
+    await db.put(currentUser.id, newMessages, to);
+
+    if (to === friend.id) {
+      await updateMessages();
+    }
+  };
+
+  const updateMessages = async () => {
+    setMessages((await db.get(currentUser.id, friend.id)) || []);
+  };
+
+  const handleSend = async (body) => {
     const message = {
       from: currentUser.id,
       to: friend.id,
@@ -45,8 +46,8 @@ const Room = ({ currentUser, socket, friend, db }) => {
       body,
       time: new Date().toLocaleTimeString(),
     };
-    socket.emit("chatMessage", message);
-    addMessage(message);
+    if (message.from !== message.to) socket.emit("chatMessage", message);
+    await addMessage(message, message.to);
   };
 
   return (

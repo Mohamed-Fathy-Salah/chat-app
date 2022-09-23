@@ -30,6 +30,9 @@ const SendBar = ({ photo, onSend }) => {
         id="exampleFormControlInput2"
         placeholder="Type message"
         ref={message}
+        onKeyUp={(e) => {
+          if (e.code === "Enter") send();
+        }}
       />
       <a className="ms-1 text-muted">
         <FontAwesomeIcon icon={faFaceSmile} />

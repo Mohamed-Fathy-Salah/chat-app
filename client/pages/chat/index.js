@@ -18,9 +18,9 @@ const Chat = ({ currentUser }) => {
   useEffect(() => {
     const createDB = async () => {
       try {
-        const newDB = await openDB("chat-store", 1, {
+        const newDB = await openDB(currentUser.id, 1, {
           upgrade(db) {
-            db.createObjectStore("chat");
+            db.createObjectStore(currentUser.id);
           },
         });
         setDB(newDB);
@@ -30,7 +30,7 @@ const Chat = ({ currentUser }) => {
     };
 
     createDB();
-  }, []);
+  }, [currentUser.id]);
 
   return (
     <div className="row">
