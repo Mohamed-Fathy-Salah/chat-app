@@ -28,7 +28,9 @@ export class User extends Model {
   @Column
   status?: string;
 
-  @Default("default-user")
+  @Default(
+    "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+  )
   @Column
   photo?: string;
 }

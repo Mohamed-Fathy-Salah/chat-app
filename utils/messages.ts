@@ -1,13 +1,7 @@
 export interface Message {
-  username: string;
-  text: string;
+  from: number;
+  to: number;
+  groupId: number;
+  body: string;
   time: string;
-}
-
-export function formatMessage(username: string, text: string): Message {
-  return {
-    username,
-    text,
-    time: new Date().toLocaleTimeString(),
-  };
 }

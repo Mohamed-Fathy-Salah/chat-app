@@ -1,8 +1,8 @@
-import path from "path";
 import "express-async-errors";
 import express from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import cors from "cors";
 
 import { currentUser } from "./middlewares/current-user";
 import { NotFoundError } from "./errors/not-found-error";
@@ -35,6 +35,13 @@ app.use(
   cookieSession({
     signed: false,
     secure: false,
+    httpOnly: false,
+  })
+);
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
   })
 );
 
@@ -63,8 +70,6 @@ app.use(addUserConnectionRouter);
 app.use(deleteAdminRouter);
 app.use(deleteUserRouter);
 app.use(getGroupUsersRouter);
-
-app.use(express.static(path.join(__dirname, "..", "client")));
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
