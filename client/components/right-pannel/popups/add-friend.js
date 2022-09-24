@@ -2,11 +2,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import client from "../../../api/build-client";
 
-const AddFriend = ({ update }) => {
-  const id = useRef();
+const AddFriend = ({ groupId }) => {
+  const userId = useRef();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -17,14 +17,12 @@ const AddFriend = ({ update }) => {
   };
   const handleAdd = () => {
     client()
-      .post("/friend", { friendId: parseInt(id.current.value) })
-      .then((v) => {
-        update();
+      .post("/connection/user", { groupId, userId }).then(e => {
+          userId.current.value = "";
       })
       .catch((e) => {
         console.error(e);
       });
-    setOpen(false);
   };
 
   return (
@@ -46,7 +44,7 @@ const AddFriend = ({ update }) => {
                   className="form-control"
                   name="searchText"
                   placeholder="Friend Id"
-                  ref={id}
+                  ref={userId}
                 />
                 <span className="glyphicon glyphicon-search form-control-feedback" />
               </div>

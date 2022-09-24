@@ -7,23 +7,23 @@ const Chat = ({ currentUser, db }) => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
   socket.emit("join", currentUser.id);
 
-  const [friend, setFriend] = useState(null);
+  const [room, setRoom] = useState(null);
 
-  const handleChooseFriend = (choosenFriend) => {
-    setFriend(choosenFriend);
+  const handleChooseRoom = (choosenFriend) => {
+    setRoom(choosenFriend);
   };
 
   return (
     <div className="row">
       <LeftPannel
         currentUser={currentUser}
-        onChooseFriend={handleChooseFriend}
+        onChooseRoom={handleChooseRoom}
         db={db}
       />
       <RightPannel
         currentUser={currentUser}
         socket={socket}
-        friend={friend}
+        room={room}
         db={db}
       />
     </div>

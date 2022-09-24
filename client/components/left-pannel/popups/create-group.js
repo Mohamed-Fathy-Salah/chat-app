@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useRef, useState } from "react";
 import client from "../../../api/build-client";
 
-const AddFriend = ({ update }) => {
-  const id = useRef();
+const CreateGroup = ({ update }) => {
+  const name = useRef();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -17,7 +17,7 @@ const AddFriend = ({ update }) => {
   };
   const handleAdd = () => {
     client()
-      .post("/friend", { friendId: parseInt(id.current.value) })
+      .post("/group", { name: name.current.value})
       .then((v) => {
         update();
       })
@@ -30,11 +30,11 @@ const AddFriend = ({ update }) => {
   return (
     <>
       <a className="nav-link" onClick={handleOpen}>
-        <FontAwesomeIcon icon={faUser} />
+        <FontAwesomeIcon icon={faUsers} />
       </a>
       <Modal show={open} onHide={handleCancel}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Friend</Modal.Title>
+          <Modal.Title>Create Group</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row searchBox">
@@ -42,11 +42,11 @@ const AddFriend = ({ update }) => {
               <div className="form-group has-feedback">
                 <input
                   id="searchText"
-                  type="number"
+                  type="text"
                   className="form-control"
                   name="searchText"
-                  placeholder="Friend Id"
-                  ref={id}
+                  placeholder="Group Name"
+                  ref={name}
                 />
                 <span className="glyphicon glyphicon-search form-control-feedback" />
               </div>
@@ -66,4 +66,4 @@ const AddFriend = ({ update }) => {
   );
 };
 
-export default AddFriend;
+export default CreateGroup;

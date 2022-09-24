@@ -27,7 +27,8 @@ const LandingPage = () => {
       try {
         const newDB = await openDB(user.id, 1, {
           upgrade(x) {
-            x.createObjectStore(user.id);
+            x.createObjectStore("u");
+            x.createObjectStore("g");
           },
         });
         setDB(newDB);

@@ -4,7 +4,7 @@ import SendBar from "./send-bar";
 import Top from "./top";
 import uuid from "react-uuid";
 
-const Room = ({ currentUser, socket, friend, db }) => {
+const Room = ({ currentUser, socket, room, db }) => {
   const messageEnd = useRef();
   const [messages, setMessages] = useState([]);
 
@@ -12,40 +12,38 @@ const Room = ({ currentUser, socket, friend, db }) => {
     socket.on("message", (message) => {
       addMessage(message, message.from);
     });
-    return () => {
-      socket.off("message");
-    };
   }, [socket]);
 
   useEffect(() => {
     updateMessages();
-  }, [friend]);
+  }, [room]);
 
   useEffect(() => {
     messageEnd.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const addMessage = async (message, to) => {
-    const newMessages = [
-      ...((await db.get(currentUser.id, to)) || []),
-      message,
-    ];
-    await db.put(currentUser.id, newMessages, to);
+  const isGroup = () => room.email === undefined;
 
-    if (to === friend.id) {
+  const addMessage = async (message, to) => {
+    const from = isGroup() ? "g" : "u";
+    const newMessages = [...((await db.get(from, to)) || []), message];
+    await db.put(from, newMessages, to);
+
+    if (to === room.id && isGroup() === message.isGroup) {
       await updateMessages();
     }
   };
 
   const updateMessages = async () => {
-    setMessages((await db.get(currentUser.id, friend.id)) || []);
+    const from = isGroup() ? "g" : "u";
+    setMessages((await db.get(from, room.id)) || []);
   };
 
   const handleSend = async (body) => {
     const message = {
       from: currentUser.id,
-      to: friend.id,
-      groupId: null,
+      to: room.id,
+      isGroup: isGroup(),
       body,
       time: new Date().toLocaleTimeString(),
     };
@@ -55,7 +53,7 @@ const Room = ({ currentUser, socket, friend, db }) => {
 
   return (
     <>
-      <Top data={friend} />
+      <Top data={room} />
       <div
         className="pt-3 pe-3"
         data-mdb-perfect-scrollbar="true"
@@ -66,7 +64,7 @@ const Room = ({ currentUser, socket, friend, db }) => {
             key={uuid()}
             message={message}
             isMine={message.from === currentUser.id}
-            user={message.from === currentUser.id ? currentUser : friend}
+            user={message.from === currentUser.id ? currentUser : room}
           />
         ))}
         <div ref={messageEnd} />

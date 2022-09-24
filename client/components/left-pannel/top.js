@@ -1,8 +1,7 @@
 import AddFriend from "./popups/add-friend";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+import CreateGroup from "./popups/create-group";
 
-const Top = ({ data, update }) => {
+const Top = ({ data, updateFriends, updateGroups }) => {
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="d-flex flex-row">
@@ -16,7 +15,7 @@ const Top = ({ data, update }) => {
           <span className="badge bg-success badge-dot" />
         </div>
         <div className="pt-1">
-          <p className="fw-bold mb-0">{data.id + ' ' + data.name}</p>
+          <p className="fw-bold mb-0">{data.id + " " + data.name}</p>
           <p className="small text-muted">{data.email}</p>
         </div>
       </div>
@@ -24,12 +23,10 @@ const Top = ({ data, update }) => {
       <div className="d-flex justify-content-end">
         <ul className="nav d-flex align-items-center">
           <li className="nav-item">
-            <AddFriend update={update} />
+            <AddFriend update={updateFriends} />
           </li>
           <li className="nav-item">
-            <a className="nav-link">
-              <FontAwesomeIcon icon={faCog} />
-            </a>
+            <CreateGroup update={updateGroups} />
           </li>
         </ul>
       </div>

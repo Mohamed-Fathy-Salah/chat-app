@@ -19,7 +19,9 @@ export class Group extends Model {
   @Column
   description?: string;
 
-  @Default("default-group")
+  @Default(
+    "https://www.phenomecentral.org/download/PhenoTips/PhenoTipsGroupTemplate/group.png"
+  )
   @Column
   photo?: string;
 }

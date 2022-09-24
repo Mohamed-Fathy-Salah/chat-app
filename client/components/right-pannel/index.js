@@ -1,10 +1,10 @@
 import Room from "./room";
 
-const RightPannel = ({ currentUser, socket, friend, db }) => {
+const RightPannel = ({ currentUser, socket, room, db }) => {
   return (
     <div className="col-md-6 col-lg-7 col-xl-8">
-      {friend ? (
-        <Room currentUser={currentUser} socket={socket} friend={friend} db={db}/>
+      {room ? (
+        <Room currentUser={currentUser} socket={socket} room={room} db={db} />
       ) : (
         <h1>select friend or group</h1>
       )}

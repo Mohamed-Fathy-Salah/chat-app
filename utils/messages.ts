@@ -1,7 +1,7 @@
 export interface Message {
   from: number;
   to: number;
-  groupId: number;
+  isGroup: boolean;
   body: string;
   time: string;
 }
