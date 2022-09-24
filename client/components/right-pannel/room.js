@@ -12,6 +12,9 @@ const Room = ({ currentUser, socket, friend, db }) => {
     socket.on("message", (message) => {
       addMessage(message, message.from);
     });
+    return () => {
+      socket.off("message");
+    };
   }, [socket]);
 
   useEffect(() => {
