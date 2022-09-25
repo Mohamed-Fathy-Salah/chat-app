@@ -2,11 +2,14 @@ import { createServer } from "http";
 import { sequelize } from "./models/sequelize-wrapper";
 import { app } from "./app";
 import { Server, Socket } from "socket.io";
+import { Connection } from "./models/connection";
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined");
   }
+
+  await sequelize.sync();
 
   const server = createServer(app);
 
@@ -49,16 +52,33 @@ const start = async () => {
     //});
     //});
 
-    socket.on("chatMessage", (msg) => {
-      io.to(msg.to).emit("message", msg);
+    socket.on("chatMessage", async (msg) => {
+      if (msg.isGroup) {
+        const groupId = msg.to;
+        const users = await Connection.findAll({
+          where: { groupId },
+          attributes: { exclude: ["groupId"] },
+        });
+
+        users.forEach((user) => {
+          if (user.userId !== msg.from)
+            io.to(user.userId.toString()).emit("message", {
+              from: groupId,
+              to: user.userId,
+              isGroup: msg.isGroup,
+              body: msg.body,
+              time: msg.time,
+            });
+        });
+      } else {
+        io.to(msg.to).emit("message", msg);
+      }
     });
 
     socket.on("join", (room) => {
       socket.join(room);
     });
   });
-
-  await sequelize.sync();
 
   server.listen(3001, async () => {
     console.log("listening on port 3001");

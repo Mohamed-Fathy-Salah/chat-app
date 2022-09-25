@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { useId, useRef, useState } from "react";
 import client from "../../../api/build-client";
 
-const AddFriend = ({ groupId }) => {
+const AddFriend = ({ groupId, socket }) => {
   const userId = useRef();
   const [open, setOpen] = useState(false);
 
@@ -17,11 +17,13 @@ const AddFriend = ({ groupId }) => {
   };
   const handleAdd = () => {
     client()
-      .post("/connection/user", { groupId, userId }).then(e => {
-          userId.current.value = "";
+      .post("/connection/user", { groupId, userId: userId.current.value })
+      .then((e) => {
+        userId.current.value = "";
+        socket.emit("userJoined", { groupId, userId: userId.current.value });
       })
       .catch((e) => {
-        console.error(e);
+        console.error("error = ", e);
       });
   };
 

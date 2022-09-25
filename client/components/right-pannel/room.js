@@ -11,10 +11,11 @@ const Room = ({ currentUser, socket, room, db }) => {
   useEffect(() => {
     const update = async (message) => {
       await addMessage(message, message.from);
-      if (message.from === room.id || message.to === room.id)
-        await updateMessages();
+      if (message.from === room.id || message.to === room.id) await updateMessages();
     };
+
     socket.on("message", (message) => {
+        console.log(message)
       update(message);
     });
   }, [socket]);
@@ -30,7 +31,7 @@ const Room = ({ currentUser, socket, room, db }) => {
   const isGroup = () => room.email === undefined;
 
   const addMessage = async (message, to) => {
-    const from = isGroup() ? "g" : "u";
+    const from = message.isGroup ? "g" : "u";
     const newMessages = [...((await db.get(from, to)) || []), message];
     await db.put(from, newMessages, to);
   };
