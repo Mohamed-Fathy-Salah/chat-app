@@ -9,8 +9,13 @@ const Room = ({ currentUser, socket, room, db }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    const update = async (message) => {
+      await addMessage(message, message.from);
+      if (message.from === room.id || message.to === room.id)
+        await updateMessages();
+    };
     socket.on("message", (message) => {
-      addMessage(message, message.from);
+      update(message);
     });
   }, [socket]);
 
@@ -28,10 +33,6 @@ const Room = ({ currentUser, socket, room, db }) => {
     const from = isGroup() ? "g" : "u";
     const newMessages = [...((await db.get(from, to)) || []), message];
     await db.put(from, newMessages, to);
-
-    if (to === room.id && isGroup() === message.isGroup) {
-      await updateMessages();
-    }
   };
 
   const updateMessages = async () => {
@@ -49,6 +50,7 @@ const Room = ({ currentUser, socket, room, db }) => {
     };
     if (message.from !== message.to) socket.emit("chatMessage", message);
     await addMessage(message, message.to);
+    await updateMessages();
   };
 
   return (
