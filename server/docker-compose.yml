@@ -7,6 +7,12 @@ services:
       - "3001:3001"
     volumes:
       - ./haproxy:/usr/local/etc/haproxy
+  postgresql:
+    image: postgres
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
   rds:
     image: redis
   chat1:
@@ -14,13 +20,4 @@ services:
     environment:
       - JWT_KEY=abcd
       - REDIS_URL=redis://rds:6379
-  chat2:
-    image: mofasa101/chatapp
-    environment:
-      - JWT_KEY=abcd
-      - REDIS_URL=redis://rds:6379
-  chat3:
-    image: mofasa101/chatapp
-    environment:
-      - JWT_KEY=abcd
-      - REDIS_URL=redis://rds:6379
+      - POSTGRES_URL=postgres://user:pass@postgresql:5432/db

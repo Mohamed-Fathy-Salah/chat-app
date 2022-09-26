@@ -12,6 +12,9 @@ const start = async () => {
   if (!process.env.REDIS_URL) {
     throw new Error("REDIS_HOST must be defined");
   }
+  if (!process.env.POSTGRES_URL) {
+    throw new Error("POSTGRES_URL must be defined");
+  }
 
   const PORT = "3000";
 
