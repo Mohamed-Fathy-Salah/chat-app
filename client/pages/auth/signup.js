@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import client from "../../api/build-client";
+import uuid from "react-uuid";
 
 const Signup = () => {
   const router = useRouter();
   const [name, setName] = useState("aaa");
-  const [email, setEmail] = useState("aa@aa.com");
+  const [email, setEmail] = useState(uuid().slice(0, 5) + "@aa.com");
   const [password, setPassword] = useState("123456");
 
   const onSubmit = async (event) => {

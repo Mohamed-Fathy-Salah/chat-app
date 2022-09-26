@@ -61,14 +61,11 @@ const start = async () => {
         });
 
         users.forEach((user) => {
-          if (user.userId !== msg.from)
-            io.to(user.userId.toString()).emit("message", {
-              from: groupId,
-              to: user.userId,
-              isGroup: msg.isGroup,
-              body: msg.body,
-              time: msg.time,
-            });
+          if (user.userId !== msg.from) {
+            console.log(user.userId.toString());
+            //@ts-ignore
+            io.to(user.userId).emit("message", msg);
+          }
         });
       } else {
         io.to(msg.to).emit("message", msg);

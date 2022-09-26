@@ -10,14 +10,18 @@ const Room = ({ currentUser, socket, room, db }) => {
 
   useEffect(() => {
     const update = async (message) => {
-      await addMessage(message, message.from);
-      if (message.from === room.id || message.to === room.id) await updateMessages();
+      await addMessage(message, message.isGroup ? message.to : message.from);
+      // todo : update only if room.id == messae.from but it uses old room for some reason
+      await updateMessages();
     };
 
     socket.on("message", (message) => {
-        console.log(message)
+      console.log(message);
       update(message);
     });
+    return () => {
+      socket.off("messae");
+    };
   }, [socket]);
 
   useEffect(() => {
@@ -49,7 +53,8 @@ const Room = ({ currentUser, socket, room, db }) => {
       body,
       time: new Date().toLocaleTimeString(),
     };
-    if (message.from !== message.to) socket.emit("chatMessage", message);
+    if (isGroup() || message.from !== message.to)
+      socket.emit("chatMessage", message);
     await addMessage(message, message.to);
     await updateMessages();
   };
