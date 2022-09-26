@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  lb:
+    image: haproxy
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+  rds:
+    image: redis
+  chat1:
+    image: mofasa101/chatapp
+    environment:
+      - JWT_KEY=abcd
+      - REDIS_URL=redis://rds:6379
+  chat2:
+    image: mofasa101/chatapp
+    environment:
+      - JWT_KEY=abcd
+      - REDIS_URL=redis://rds:6379
+  chat3:
+    image: mofasa101/chatapp
+    environment:
+      - JWT_KEY=abcd
+      - REDIS_URL=redis://rds:6379
