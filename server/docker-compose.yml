@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  lb:
+    image: haproxy
+    ports:
+      - "3001:3001"
+    links:
+      - chat1
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+  postgresql:
+    image: postgres
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+  chat1:
+    image: mofasa101/chatapp
+    environment:
+      - JWT_KEY=abcd
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://user:pass@postgresql:5432/db
+  chat2:
+    image: mofasa101/chatapp
+    environment:
+      - JWT_KEY=abcd
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://user:pass@postgresql:5432/db
+  redis:
+    image: redis:alpine
+    expose:
+      - "6379"
