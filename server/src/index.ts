@@ -6,7 +6,6 @@ import { Connection } from "./models/connection";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 
-const rand = Math.random();
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined");
@@ -52,7 +51,6 @@ const start = async () => {
             }
           });
         } else {
-          msg.body += rand;
           io.to(msg.to).emit("message", msg);
         }
       } catch (e) {
